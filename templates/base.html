@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoCycle{% block title %}{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --verde: #2d6a4f;
+      --verde-med: #40916c;
+      --verde-clr: #74c69d;
+      --verde-pale: #d8f3dc;
+      --bege: #f7f3ee;
+      --texto: #1b2e26;
+      --muted: #6b8a7a;
+      --borda: #c8e6d4;
+      --radius: 12px;
+      --shadow: 0 2px 12px rgba(45, 106, 79, .10);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bege);
+      color: var(--texto);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--verde);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      font-size: 1.6rem;
+    }
+
+    .brand-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: #fff;
+      letter-spacing: .02em;
+    }
+
+    .brand-tag {
+      font-size: .65rem;
+      color: var(--verde-clr);
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: rgba(255, 255, 255, .12);
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+
+    nav a.nav-link {
+      color: var(--verde-pale);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      padding: .4rem .9rem;
+      border-radius: 8px;
+      transition: background .2s;
+    }
+
+    nav a.nav-link:hover {
+      background: rgba(255, 255, 255, .15);
+      color: #fff;
+    }
+
+    .btn-nav {
+      background: var(--verde-clr);
+      color: var(--verde) !important;
+      font-weight: 600 !important;
+      padding: .45rem 1.1rem !important;
+    }
+
+    .btn-nav:hover {
+      background: #95d5b2 !important;
+    }
+
+    /* ── MAIN CONTAINER ── */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 4rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem;
+      color: var(--verde);
+      margin-bottom: .4rem;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .ods-badge {
+      display: inline-block;
+      margin-top: .8rem;
+      background: var(--verde-pale);
+      color: var(--verde);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--borda);
+    }
+
+    /* ── FILTRO ── */
+    .filtro-bar {
+      display: flex;
+      gap: .75rem;
+      align-items: center;
+      background: #fff;
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .filtro-bar label {
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--verde);
+      white-space: nowrap;
+    }
+
+    .filtro-bar select {
+      flex: 1;
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      padding: .45rem .75rem;
+      font-family: inherit;
+      font-size: .9rem;
+      color: var(--texto);
+      background: var(--bege);
+      outline: none;
+      cursor: pointer;
+    }
+
+    .filtro-bar select:focus {
+      border-color: var(--verde-med);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .5rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: .875rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all .2s;
+    }
+
+    .btn-primary {
+      background: var(--verde-med);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--verde);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--borda);
+    }
+
+    .btn-ghost:hover {
+      background: var(--verde-pale);
+      color: var(--verde);
+      border-color: var(--verde-clr);
+    }
+
+    /* ── STATS ── */
+    .stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat {
+      background: #fff;
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: .75rem 1.25rem;
+      flex: 1;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.7rem;
+      color: var(--verde);
+    }
+
+    .stat-label {
+      font-size: .75rem;
+      color: var(--muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    /* ── GRID DE CARDS ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(45, 106, 79, .15);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: .5rem;
+    }
+
+    .card-nome {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--texto);
+      line-height: 1.3;
+    }
+
+    .badge {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .badge-cat {
+      background: var(--verde-pale);
+      color: var(--verde);
+      border: 1px solid var(--borda);
+    }
+
+    .badge-otimo {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .badge-bom {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .badge-regular {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-reparo {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .card-desc {
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .card-footer {
+      border-top: 1px solid var(--borda);
+      padding-top: .6rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-contato {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--verde-med);
+    }
+
+    .card-data {
+      font-size: .75rem;
+      color: #aac;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--muted);
+      grid-column: 1 / -1;
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .empty h3 {
+      font-size: 1.1rem;
+      margin-bottom: .4rem;
+      color: var(--verde);
+    }
+
+    /* ── FORM ── */
+    .form-card {
+      background: #fff;
+      border: 1px solid var(--borda);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      max-width: 600px;
+    }
+
+    .form-card h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: var(--verde);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .form-group label {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--verde);
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: .6rem .9rem;
+      border: 1px solid var(--borda);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: .95rem;
+      color: var(--texto);
+      background: var(--bege);
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--verde-med);
+      background: #fff;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: .75rem;
+      margin-top: 1.5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: .78rem;
+      color: var(--muted);
+      border-top: 1px solid var(--borda);
+      margin-top: 4rem;
+    }
+
+    footer strong {
+      color: var(--verde-med);
+    }
+
+    @media (max-width: 600px) {
+      .stats {
+        flex-direction: column;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      nav {
+        padding: 0 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="/" class="brand">
+      <span class="brand-icon">♻️</span>
+      <span class="brand-name">EcoCycle</span>
+      <span class="brand-tag">ODS 12</span>
+    </a>
+    <a href="/cadastrar" class="nav-link btn-nav">+ Cadastrar item</a>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    Projeto de Extensão — Made With ❤️ By Natan Zunfrilli - ADS Cruzeiro do Sul &nbsp;|&nbsp;
+    <strong>EcoCycle</strong> &nbsp;·&nbsp; Economia Circular &amp; Consumo Responsável
+  </footer>
+</body>
+
+</html>

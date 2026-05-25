@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %} — Feed{% endblock %}
+
+{% block content %}
+<div class="hero">
+  <h1>Dê uma nova vida aos seus itens</h1>
+  <p>Troque, doe e descarte de forma responsável. Juntos construímos uma economia circular.</p>
+  <span class="ods-badge">🌱 Alinhado ao ODS 12 da ONU</span>
+</div>
+
+<!-- Filtro -->
+<form method="GET" action="/" class="filtro-bar">
+  <label for="categoria">Filtrar por categoria:</label>
+  <select name="categoria" id="categoria" onchange="this.form.submit()">
+    <option value="">Todas as categorias</option>
+    {% for cat in categorias %}
+      <option value="{{ cat }}" {% if filtro == cat %}selected{% endif %}>{{ cat }}</option>
+    {% endfor %}
+  </select>
+  {% if filtro %}
+    <a href="/" class="btn btn-ghost">✕ Limpar</a>
+  {% endif %}
+</form>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">{{ items | length }}</div>
+    <div class="stat-label">{% if filtro %}Resultados{% else %}Itens disponíveis{% endif %}</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">{{ categorias | length }}</div>
+    <div class="stat-label">Categorias</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">+0 kg</div>
+    <div class="stat-label">CO₂ evitado (estimado)</div>
+  </div>
+</div>
+
+<!-- Grid de Itens -->
+<div class="grid">
+  {% if items %}
+    {% for item in items %}
+      {% if item.estado == "Ótimo" %}{% set badge_estado = "badge-otimo" %}
+      {% elif item.estado == "Bom" %}{% set badge_estado = "badge-bom" %}
+      {% elif item.estado == "Regular" %}{% set badge_estado = "badge-regular" %}
+      {% else %}{% set badge_estado = "badge-reparo" %}
+      {% endif %}
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-nome">{{ item.nome }}</span>
+          <span class="badge badge-cat">{{ item.categoria }}</span>
+        </div>
+        <span class="badge {{ badge_estado }}" style="align-self:flex-start;">{{ item.estado }}</span>
+        {% if item.descricao %}
+          <p class="card-desc">{{ item.descricao }}</p>
+        {% endif %}
+        <div class="card-footer">
+          <span class="card-contato">✉ {{ item.contato }}</span>
+          <span class="card-data">{{ item.data }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty">
+      <div class="empty-icon">🔍</div>
+      <h3>Nenhum item encontrado</h3>
+      <p>Tente outra categoria ou <a href="/cadastrar" style="color:var(--verde-med);">cadastre o primeiro item</a>.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
